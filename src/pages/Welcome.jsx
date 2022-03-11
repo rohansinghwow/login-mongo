@@ -13,7 +13,7 @@ export default function Welcome(props){
         
         <h1>Welcome {props.credVal}</h1>
         <ul>
-        <li><Link to="/register">Profile Info</Link></li>
+        {!props.credVal && <li><Link to="/register">Profile Info</Link></li>}
         </ul>
         
         
