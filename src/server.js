@@ -1,18 +1,39 @@
 const express = require('express')
 const app = express()
 const cors = require('cors')
-
+const mongoose = require('mongoose');
 const PORT = 4000
 
 app.use(cors())
 app.use(express.json())
 
+//Mongoose
+mongoose.connect("mongodb://localhost/todo")
+const userSchema = new mongoose.Schema(
+    {
+        username : String,
+        password: String,
+    }
+)
+const User = mongoose.model("User" , userSchema);
+
+
 app.get('/',  (req,res)=>{
     res.send('Home')
 })
 
-app.post('/register',  (req,res)=>{
-    res.send('user registered')
+app.post('/register',  async (req,res)=>{
+    const {username , password} = req.body
+    const userExist = User.findOne({username})
+    if(userExist){
+        res.json("Sorry, User exists!")
+        res.sendStatus(404);
+        return
+        
+    }
+    await User.create({username,password})
+    
+    res.json("Success")
 })
 
 
