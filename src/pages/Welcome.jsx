@@ -1,12 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Register from "./Register";
 
-export default function Welcome(){
+
+
+
+export default function Welcome(props){
+    
+    
+    
     return (
         <>
-        <h1>Welcome</h1>
-        <Link to="/register"><Register/></Link>
+        
+        <h1>Welcome {props.credVal}</h1>
+        <ul>
+        <li><Link to="/register">Profile Info</Link></li>
+        </ul>
+        
+        
         </>
     )
 }

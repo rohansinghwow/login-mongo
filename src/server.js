@@ -26,9 +26,7 @@ app.post('/register',  async (req,res)=>{
     const {username , password} = req.body
     const userExist = User.findOne({username})
     if(userExist){
-        res.json("Sorry, User exists!")
-        res.sendStatus(404);
-        return
+        res.status(500)
         
     }
     await User.create({username,password})

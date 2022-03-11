@@ -8,21 +8,20 @@ import {
 import Register from "./pages/Register";
 import Welcome from "./pages/Welcome";
 
+export const CredentialContext = React.createContext()
+
 export default function App() {
-  return (
-    <>
     
+  const [cred,setCred] = React.useState({
+    username : null,
+    password : null
+  })
+  return (
     <Router>
-        <Switch>
-        <Route exact path="/">
-        <Welcome/>
-        </Route>
-          <Route  path="/register">
-            <Register />
-          </Route>
-        </Switch>
-      
-    </Router>
-    </>
+    <Switch>
+          <Route exact path="/"><Welcome credVal={cred.username}/></Route>
+          <Route exact path="/register"><Register credSetup={setCred}/></Route> 
+     </Switch>
+     </Router>
   );
 }

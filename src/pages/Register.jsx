@@ -1,13 +1,15 @@
 
 
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 
-export default function Register(){
+export default function Register(props){
 
     const [username, setUsername] = React.useState('')
     const [password, setPassword] = React.useState('')
     const [isError, setIsError]  = React.useState(false)
+    const history = useHistory()
     
     
 
@@ -16,23 +18,35 @@ export default function Register(){
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-                // 'Content-Type': 'application/x-www-form-urlencoded',
+                
               },
             body: JSON.stringify({
                 username,
                 password
 
             })
-        }).catch(()=>{
-            console.log('Error')
-            setIsError(true)
         })
+        .then(()=>{
+            
+            history.push('/')
+            setIsError(prevErr=>prevErr=false)
+             props.credSetup({
+                username,
+                password
+            })
+            
+        }).catch(()=>{
+            console.log("Wow, error")
+            
+        })
+        
         
     }
 
     function handleSubmit(e){
         e.preventDefault()
         sendDataToServer()
+        
     }
     return (
         <>
