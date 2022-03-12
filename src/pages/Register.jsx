@@ -11,7 +11,13 @@ export default function Register(props){
     const [isError, setIsError]  = React.useState(false)
     const history = useHistory()
     
-    
+    function handleSubmit(e){
+        e.preventDefault()
+       
+            sendDataToServer()
+        
+        
+    }
 
     function sendDataToServer(){
         fetch('http://localhost:4000/register' , {
@@ -26,29 +32,28 @@ export default function Register(props){
 
             })
         })
-        .then(()=>{
-            
-            history.push('/')
-            setIsError(prevErr=>prevErr=false)
-             props.credSetup({
-                username,
-                password
-            })
-            
-        }).catch(()=>{
-            console.log("Wow, error")
-            
-        })
+        .then((response) => {
+            if (!response.ok) {
+                // make the promise be rejected if we didn't get a 2xx response
+                const err = new Error("Error response");
+                err.response = response;
+                throw err;
+            } 
+                props.credSetup({
+                    username,
+                    password
+                })
+                history.push('/')
+        }
         
-        
-    }
-
-    function handleSubmit(e){
-        e.preventDefault()
-        sendDataToServer()
-        
-    }
+        ).catch((error)=>{
+            console.log(error)
+            setIsError(prevErr=>prevErr=true)
+            
+        })}
+    
     return (
+    
         <>
             <h1>Register</h1>
             
@@ -62,5 +67,5 @@ export default function Register(props){
                 <button type="submit">Register</button>
             </form>
         </>
-    )
-}
+        )
+    }
