@@ -27,6 +27,7 @@ app.post('/register',  async (req,res)=>{
     const {username , password} = req.body
     console.log('6')
     const userExist = await  User.findOne({username})
+    console.log(userExist.password)
     console.log('7')
     if(userExist){
         console.log('8')
@@ -42,6 +43,32 @@ app.post('/register',  async (req,res)=>{
     res.json("Success")
     console.log('12')
 })
+
+
+app.post('/login',  async (req,res)=>{
+    console.log('5')
+    const {username , password} = req.body
+    console.log('6')
+    const userExist = await  User.findOne({username})
+    
+    console.log('7')
+    if(userExist && password === userExist.password){
+        console.log('8')
+        res.status(200)
+        console.log('Success Full Login')
+        return res.send("Login Succesfull")
+        
+        
+    }
+    else if(userExist && password !== userExist.password){
+        res.status(401)
+        return res.send("wrong password")
+    }
+    
+    
+})
+
+
 console.log('13')
 
 app.listen(PORT, ()=>{
